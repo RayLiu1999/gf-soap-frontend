@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script type='text/javascript' nonce='PKI4YH4BIHayLWp28bi7eA==' src='https://claude.ai/8J-T56ARAUJhMZQIBIi9S_kiBBcH0hKuIyBXF6jqHh9mBnLxlq4H3fnwr0_uek1zZ0_dIt973QiUIbSr1pTtxEUEPM1TuBUrv8-twClECwvPW-AyUq4OrkixgsGM15kamOGJYuQEsZ5Duy9Kynoylmfn-x6s6fJFIeaasyI-9ZFYmsEeV8kW04nEqH5xowTkTKKiLiD3zlR5mZ1xsNe-0Hnf5FeAwkDn35XJI5GXMgG02avRWWeNo2lyJwrSPz0PuVuxmebUdTjhwRppkO3xBnKSKTSteAPpchNPTzBy75VsPrsXXXJFkNGiMdCJGHOD_8MQgowBjrnjRl_JuFgiPrxxSRcfWyMeo9yyrVnR-ben4OBH6qJcgchUEWPxKkY2RgXcvM2f8hQkTwdb7dOTkpqF0VOrRARIa7zmP6KJrnWnUBHmaRisr2Qxf4YVEr54ervtpM9wXNJfQ49yrT3xowAowEZoA4H3OpyogTS0RQc_qDe2-Pywwn1HeJpYRwken6Org8OsigjJl8khQuEPRLJKS-LLLdeGVwXpsjO0vwd2NLrVzctA5eBVFiBGIjbiwSHS8y1AJhLY2CPP5CuvEDD41A4UAaPqmeQ8WZNjPTv1bwHOXthxFziIt5qUPa3vHoDK8_3V6KbjRSg'></script><script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;600;700;900&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}
+  body{margin:0;background:#E9E6DC;font-family:'Inter','PingFang TC','Noto Sans TC','Microsoft JhengHei',sans-serif;-webkit-font-smoothing:antialiased}
+  ::selection{background:#CADCB8}
+  @keyframes fadeUp{from{transform:translateY(14px)}to{transform:none}}
+  @keyframes soapOut{60%{opacity:.4}to{opacity:0;transform:translateX(70px) scale(.94) rotate(2deg)}}
+  @keyframes restoreIn{from{opacity:0;transform:translateX(-28px)}to{opacity:1;transform:none}}
+  @keyframes drawerIn{from{transform:translateX(-104%)}to{transform:none}}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+  @keyframes toastIn{from{opacity:0;transform:translateY(12px) scale(.96)}to{opacity:1;transform:none}}
+  @keyframes bubbleRise{0%{transform:translateY(8px) scale(.6);opacity:0}25%{opacity:.9}100%{transform:translateY(-30px) scale(1);opacity:0}}
+  @keyframes leafSway{0%,100%{transform:rotate(-5deg)}50%{transform:rotate(5deg)}}
+  @keyframes moldFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+  .soap-out{animation:soapOut .5s cubic-bezier(.5,0,.75,0) forwards;pointer-events:none}
+  .restore-in{animation:restoreIn .42s ease}
+  .page-anim{animation:fadeUp .44s cubic-bezier(.2,.7,.2,1) both}
+  .lift{transition:transform .22s cubic-bezier(.2,.7,.2,1),box-shadow .22s ease}
+  .navitem:hover{background:rgba(106,153,78,.12)}
+  textarea,input,select,button{font-family:inherit}
+  textarea:focus,input:focus,select:focus{outline:none}
+  .scroll::-webkit-scrollbar{width:9px;height:9px}
+  .scroll::-webkit-scrollbar-thumb{background:#CFCBBD;border-radius:9px;border:2px solid transparent;background-clip:content-box}
+</style>
+</helmet>
+
+<div style="display:flex;height:100vh;width:100%;overflow:hidden;background:#E9E6DC">
+
+  <!-- ===================== SIDEBAR ===================== -->
+  <aside style="{{ nav.asideStyle }}">
+    <div style="{{ nav.brandBox }}">
+      <div style="{{ nav.logoBox }}">{{ nav.logoIcon }}</div>
+      <div style="display:flex;flex-direction:column;line-height:1.15">
+        <span style="{{ nav.brandTitle }}">綠芬芳</span>
+        <span style="{{ nav.brandSub }}">手工皂職人工坊</span>
+      </div>
+    </div>
+
+    <nav class="scroll" style="flex:1;overflow-y:auto;padding:6px 14px 20px">
+      <div class="navitem" onclick="{{ nav.dashItem.onClick }}" style="{{ nav.dashItem.style }}">
+        {{ nav.dashItem.iconEl }}<span>儀表板</span>
+      </div>
+
+      <sc-for list="{{ nav.groups }}" as="grp" hint-placeholder-count="4">
+        <div style="margin-top:20px">
+          <div style="{{ grp.headerStyle }}">{{ grp.iconEl }}<span>{{ grp.label }}</span></div>
+          <sc-for list="{{ grp.items }}" as="it" hint-placeholder-count="2">
+            <div class="navitem" onclick="{{ it.onClick }}" style="{{ it.style }}">
+              {{ it.iconEl }}<span style="flex:1">{{ it.label }}</span>
+              <sc-if value="{{ it.badge }}" hint-placeholder-val="0"><span style="{{ it.badgeStyle }}">{{ it.badge }}</span></sc-if>
+            </div>
+          </sc-for>
+        </div>
+      </sc-for>
+    </nav>
+
+    <div style="{{ nav.footStyle }}">
+      <div style="{{ nav.avatarStyle }}">管</div>
+      <div style="display:flex;flex-direction:column;line-height:1.25;flex:1">
+        <span style="{{ nav.footName }}">工坊管理者</span>
+        <span style="{{ nav.footRole }}">職人管理權限</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ===================== MAIN ===================== -->
+  <div style="flex:1;display:flex;flex-direction:column;min-width:0;background:{{ contentBg }}">
+
+    <!-- TOPBAR -->
+    <header style="display:flex;align-items:center;gap:20px;padding:0 34px;height:74px;flex:0 0 74px;background:rgba(248,247,242,.82);backdrop-filter:blur(8px);border-bottom:1px solid #E6E2D7;z-index:5">
+      <div style="display:flex;flex-direction:column;min-width:0">
+        <h1 style="margin:0;font-family:&#39;Noto Serif TC&#39;,serif;font-size:21px;font-weight:700;color:#2C3327;letter-spacing:.01em;white-space:nowrap">{{ pageTitle }}</h1>
+        <span style="font-size:12.5px;color:#8A8D7F;margin-top:1px;white-space:nowrap">{{ pageDesc }}</span>
+      </div>
+      <div style="flex:1"></div>
+
+      <div style="display:flex;align-items:center;gap:7px;padding:5px;background:#EFEDE3;border-radius:12px;border:1px solid #E2DECF">
+        <span style="font-size:11px;color:#9A9C8E;padding-left:8px;letter-spacing:.04em">側欄</span>
+        <button onclick="{{ setForest }}" style="{{ seg.forest }}">森林褐</button>
+        <button onclick="{{ setPaper }}" style="{{ seg.paper }}">紙感</button>
+      </div>
+
+      <div style="position:relative;cursor:pointer" onclick="{{ goContact }}">
+        <div style="width:40px;height:40px;border-radius:12px;background:#fff;border:1px solid #E6E2D7;display:flex;align-items:center;justify-content:center;color:#5A6152">{{ bellIcon }}</div>
+        <span style="position:absolute;top:-4px;right:-4px;background:#B07D62;color:#fff;font-size:10px;font-weight:700;min-width:18px;height:18px;border-radius:9px;display:flex;align-items:center;justify-content:center;padding:0 4px;border:2px solid #F8F7F2">{{ unread }}</span>
+      </div>
+    </header>
+
+    <!-- CONTENT -->
+    <main class="scroll" style="flex:1;overflow-y:auto;position:relative">
+      <div key="{{ route }}" style="max-width:1180px;margin:0 auto;padding:34px 34px 90px">
+
+        <!-- ===== DASHBOARD ===== -->
+        <sc-if value="{{ isDashboard }}" hint-placeholder-val="{{ true }}">
+          <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:14px">
+            <div style="display:flex;align-items:center;gap:14px">
+              <div style="width:46px;height:46px;border-radius:50%;background:#EAF1E4;display:flex;align-items:center;justify-content:center;animation:leafSway 4s ease-in-out infinite">{{ greetLeaf }}</div>
+              <div>
+                <div style="font-family:&#39;Noto Serif TC&#39;,serif;font-size:23px;font-weight:600;color:#2C3327">午安，今天工坊飄著左手香</div>
+                <div style="font-size:13px;color:#8A8D7F;margin-top:2px">2026 年 6 月 13 日・週六　·　已連續經營 1,284 天</div>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:7px;padding:5px;background:#EFEDE3;border-radius:12px;border:1px solid #E2DECF">
+              <span style="font-size:11px;color:#9A9C8E;padding-left:8px">佈局</span>
+              <button onclick="{{ setDashA }}" style="{{ dashSeg.a }}">經典分欄</button>
+              <button onclick="{{ setDashB }}" style="{{ dashSeg.b }}">便當格</button>
+            </div>
+          </div>
+
+          <!-- LAYOUT A -->
+          <sc-if value="{{ dashIsA }}" hint-placeholder-val="{{ true }}">
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:22px">
+              <sc-for list="{{ stats }}" as="s" hint-placeholder-count="4">
+                <div style="background:#fff;border:1px solid #ECEAE0;border-radius:18px 18px 18px 6px;padding:18px 18px 16px;box-shadow:0 1px 2px rgba(44,51,39,.04)">
+                  <div style="display:flex;align-items:center;justify-content:space-between">
+                    <div style="{{ s.iconWrap }}">{{ s.iconEl }}</div>
+                    <span style="{{ s.deltaStyle }}">{{ s.delta }}</span>
+                  </div>
+                  <div style="font-family:&#39;Noto Serif TC&#39;,serif;font-size:30px;font-weight:700;color:#2C3327;margin-top:14px;line-height:1">{{ s.value }}</div>
+                  <div style="font-size:12.5px;color:#8A8D7F;margin-top:5px">{{ s.label }}</div>
+                </div>
+              </sc-for>
+            </div>
+            <div style="display:grid;grid-template-columns:1.5fr 1fr;gap:16px">
+              <div style="background:#fff;border:1px solid #ECEAE0;border-radius:18px;padding:8px 8px 6px;box-shadow:0 1px 2px rgba(44,51,39,.04)">
+                <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px 12px">
+                  <div style="font-family:&#39;Noto Serif TC&#39;,serif;font-size:16px;font-weight:600;color:#2C3327">最新聯絡訊息</div>
+                  <span onclick="{{ goContact }}" style="font-size:12.5px;color:#6A994E;font-weight:600;cursor:pointer">全部 →</span>
+                </div>
+                <sc-for list="{{ messages }}" as="m" hint-placeholder-count="4">
+                  <div onclick="{{ goContact }}" style="display:flex;align-items:center;gap:14px;padding:12px 16px;border-radius:12px;cursor:pointer;transition:background .15s" style-hover="{{ hoverRow }}">
+                    <div style="{{ m.dot }}"></div>
+                    <div style="width:38px;height:38px;border-radius:11px;background:#F1EFE6;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;color:#6A994E;flex:0 0 auto">{{ m.initial }}</div>
+                    <div style="flex:1;min-width:0">
+                      <div style="font-size:13.5px;font-weight:600;color:#2C3327;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ m.subject }}</div>
+                      <div style="font-size:12px;color:#9A9C8E;margin-top:2px">{{ m.name }}・{{ m.time }}</div>
+                    </div>
+                    <span style="{{ m.badgeStyle }}">{{ m.statusLabel }}</span>
+                  </div>
+                </sc-for>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:16px">
+                <div style="background:linear-gradient(155deg,#6A994E,#557A3E);border-radius:18px 18px 6px 18px;padding:20px;color:#fff;box-shadow:0 8px 22px rgba(106,153,78,.28);position:relative;overflow:hidden">
+                  <div style="position:absolute;right:-18px;bottom:-22px;opacity:.18">{{ bigLeaf }}</div>
+                  <div style="font-size:13px;opacity:.85">本月銷售概況</div>
+                  <div style="font-family:&#39;Noto Serif TC&#39;,serif;font-size:30px;font-weight:700;margin-top:6px">NT$ 248,600</div>
+                  <div style="font-size:12.5px;opacity:.85;margin-top:4px">較上月成長 18.4%</div>
+                </div>
+                <div style="background:#fff;border:1px solid #ECEAE0;border-radius:18px;padding:18px;box-shadow:0 1px 2px rgba(44,51,39,.04)">
+                  <div style="font-family:&#39;Noto Serif TC&#39;,serif;font-size:15px;font-weight:600;color:#2C3327;margin-bottom:12px">快速操作</div>
+                  <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px">
+                    <sc-for list="{{ quickLinks }}" as="q" hint-placeholder-count="4">
+                      <div onclick="{{ q.onClick }}" style="display:flex;flex-direction:column;gap:8px;padding:13px;border:1px solid #ECEAE0;border-radius:13px;cursor:pointer;transition:all .15s" style-hover="{{ quickHover }}">
+                        <span style="color:#6A994E">{{ q.iconEl }}</span>
+                        <span style="font-size:12.5px;font-weight:600;color:#3A4233">{{ q.label }}</span>
+                      </div>
+                    </sc-for>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </sc-if>
+
+          <!-- LAYOUT B (BENTO) -->
+          <sc-if value="{{ dashIsB }}" hint-placeholder-val="{{ true }}">
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:minmax(0,auto);gap:16px">
+              <div style="grid-column:span 2;grid-row:span 2;background:linear-gradient(150deg,#2C3327,#3A4233);border-radius:22px 22px 22px 8px;padding:26px;color:#F1EFE6;position:relative;overflow:hidden;display:flex;flex-direction:column">
+                <div style="position:absolute;right:-30px;top:-20px;opacity:.14;transform:rotate(12deg)">{{ hugeLeaf }}</div>
+                <div style="font-size:13px;color:#A6B097;letter-spacing:.08em">本月銷售總額</div>
+                <div style="font-family:&#39;Noto Serif TC&#39;,serif;font-size:42px;font-weight:700;margin-top:10px;color:#fff">NT$ 248,600</div>
+                <div style="font-size:13px;color:#A6B097;margin-top:4px">較上月 ↑ 18.4%　·　訂單 312 筆</div>
+                <div style="flex:1"></div>
+                <div style="display:flex;gap:5px;align-items:flex-end;height:64px;margin-top:18px">
+                  <sc-for list="{{ bars }}" as="b" hint-placeholder-count="12">
+                    <div style="{{ b.style }}"></div>
+                  </sc-for>
+                </div>
+                <button onclick="{{ goProducts }}" style="margin-top:18px;align-self:flex-start;background:#6A994E;color:#fff;border:none;border-radius:11px;padding:11px 18px;font-size:13px;font-weight:600;cursor:pointer">管理產品工坊 →</button>
+              </div>
+              <sc-for list="{{ stats }}" as="s" hint-placeholder-count="4">
+                <div style="background:#fff;border:1px solid #ECEAE0;border-radius:18px;padding:17px;box-shadow:0 1px 2px rgba(44,51,39,.04)">
+                  <div style="{{ s.iconWrap }}">{{ s.iconEl }}</div>
+                  <div style="font-family:&#39;Noto Serif TC&#39;,serif;font-size:26px;font-weight:700;color:#2C3327;margin-top:12px;line-height:1">{{ s.value }}</div>
+                  <div style="font-size:12px;color:#8A8D7F;margin-top:4px">{{ s.label }}</div>
+                </div>
+              </sc-for>
+              <div style="grid-column:span 2;background:#fff;border:1px solid #ECEAE0;border-radius:18px;padding:8px;box-shadow:0 1px 2px rgba(44,51,39,.04)">
+                <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 14px 10px">
+                  <div style="font-family:&#39;Noto Serif TC&#39;,serif;font-size:15px;font-weight:600;color:#2C3327">最新聯絡訊息</div>
+                  <span onclick="{{ goContact }}" style="font-size:12px;color:#6A994E;font-weight:600;cursor:pointer">全部 →</span>
+                </div>
+                <sc-for list="{{ messagesShort }}" as="m" hint-placeholder-count="3">
+                  <div onclick="{{ goContact }}" style="display:flex;align-items:center;gap:12px;padding:9px 14px;border-radius:11px;cursor:pointer" style-hover="{{ hoverRow }}">
+                    <div style="{{ m.dot }}"></div>
+                    <div style="flex:1;min-width:0">
+                      <div style="font-size:13px;font-weight:600;color:#2C3327;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ m.subject }}</div>
+                      <div style="font-size:11.5px;color:#9A9C8E;margin-top:1px">{{ m.name }}・{{ m.time }}</div>
+                    </div>
+                    <span style="{{ m.badgeStyle }}">{{ m.statusLabel }}</span>
+                  </div>
+                </sc-for>
+              </div>
+              <div style="grid-column:span 2;background:#EAF1E4;border:1px solid #D8E4CC;border-radius:18px;padding:18px">
+                <div style="font-family:&#39;Noto Serif TC&#39;,serif;font-size:15px;font-weight:600;color:#3A4233;margin-bottom:12px">快速操作</div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px">
+                  <sc-for list="{{ quickLinks }}" as="q" hint-placeholder-count="4">
+                    <div onclick="{{ q.onClick }}" style="display:flex;align-items:center;gap:9px;padding:12px;background:#fff;border-radius:12px;cursor:pointer;transition:all .15s" style-hover="{{ quickHover }}">
+                      <span style="color:#6A994E">{{ q.iconEl }}</span>
+                      <span style="font-size:12.5px;font-weight:600;color:#3A4233">{{ q.label }}</span>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+            </div>
+          </sc-if>
+        </sc-if>
+
+        <!-- ===== PRODUCTS ===== -->
+        <sc-if value="{{ isProducts }}" hint-placeholder-val="{{ true }}">
+          <!-- toolbar -->
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;flex-wrap:wrap">
+            <button onclick="{{ toggleFilter }}" style="display:flex;align-items:center;gap:8px;background:#EAF1E4;color:#4C6E37;border:1px solid #D3E0C6;border-radius:11px;padding:10px 15px;font-size:13px;font-weight:600;cursor:pointer">{{ filterIcon }}篩選</button>
+            <div style="display:flex;align-items:center;gap:7px;flex-wrap:wrap">
+              <sc-for list="{{ filterChips }}" as="c" hint-placeholder-count="0">
+                <span style="display:inline-flex;align-items:center;gap:6px;background:#fff;border:1px solid #E2DECF;border-radius:999px;padding:6px 7px 6px 12px;font-size:12px;color:#5A6152">{{ c.label }}<span onclick="{{ c.onClear }}" style="cursor:pointer;width:16px;height:16px;border-radius:50%;background:#EFEDE3;display:flex;align-items:center;justify-content:center;color:#9A9C8E;font-size:11px">×</span></span>
+              </sc-for>
+            </div>
+            <span style="font-size:12.5px;color:#9A9C8E">{{ resultCount }} 件產品</span>
+            <div style="flex:1"></div>
+            <div style="display:flex;align-items:center;gap:6px;padding:4px;background:#EFEDE3;border-radius:11px;border:1px solid #E2DECF">
+              <button onclick="{{ setGrid }}" style="{{ layoutSeg.grid }}">{{ gridIcon }}</button>
+              <button onclick="{{ setList }}" style="{{ layoutSeg.list }}">{{ listIcon }}</button>
+            </div>
+            <button onclick="{{ goTrash }}" style="display:flex;align-items:center;gap:8px;background:#fff;color:#9A6A52;border:1px solid #E5D8CF;border-radius:11px;padding:10px 15px;font-size:13px;font-weight:600;cursor:pointer">{{ trashIcon }}回收桶<span style="background:#F1E6DE;border-radius:8px;padding:1px 7px;font-size:11px">{{ trashCount }}</span></button>
+            <button onclick="{{ newProduct }}" style="display:flex;align-items:center;gap:7px;background:#6A994E;color:#fff;border:none;border-radius:14px 14px 14px 5px;padding:11px 18px;font-size:13.5px;font-weight:600;cursor:pointer;box-shadow:0 6px 16px rgba(106,153,78,.3)">{{ plusIcon }}新增產品</button>
+          </div>
+
+          <!-- loading -->
+          <sc-if value="{{ loading }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:90px 0">
+              <div style="position:relative;width:84px;height:54px;border-radius:14px 14px 16px 16px;background:linear-gradient(160deg,#EAF1E4,#D8E4CC);border:1px solid #CBD9BC;animation:moldFloat 2s ease-in-out infinite;display:flex;align-items:center;justify-content:center;overflow:hidden">
+                <span style="position:absolute;left:20px;bottom:10px;width:9px;height:9px;border-radius:50%;background:#fff;animation:bubbleRise 1.5s ease-in infinite"></span>
+                <span style="position:absolute;left:38px;bottom:8px;width:13px;height:13px;border-radius:50%;background:#fff;animation:bubbleRise 1.7s ease-in infinite .3s"></span>
+                <span style="position:absolute;left:56px;bottom:10px;width:8px;height:8px;border-radius:50%;background:#fff;animation:bubbleRise 1.4s ease-in infinite .6s"></span>
+                <span style="font-family:&#39;Noto Serif TC&#39;,serif;font-size:13px;color:#6A994E;font-weight:600">皂</span>
+              </div>
+              <div style="margin-top:18px;font-size:13px;color:#9A9C8E">正在從模具中取出產品…</div>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ showProducts }}" hint-placeholder-val="{{ true }}">
+            <!-- empty -->
+            <sc-if value="{{ productsEmpty }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:70px 0;text-align:center">
+                <div style="animation:leafSway 4s ease-in-out infinite">{{ emptyLeaf }}</div>
+                <div style="font-family:&#39;Noto Serif TC&#39;,serif;font-size:18px;font-weight:600;color:#3A4233;margin-top:18px">目前工坊還空著</div>
+                <div style="font-size:13px;color:#9A9C8E;margin-top:6px;max-width:300px;line-height:1.7">沒有符合條件的產品，調整篩選或開始寫下新故事吧。</div>
+                <button onclick="{{ newProduct }}" style="margin-top:20px;background:#6A994E;color:#fff;border:none;border-radius:13px 13px 13px 5px;padding:11px 20px;font-size:13.5px;font-weight:600;cursor:pointer">新增第一款手工皂</button>
+              </div>
+            </sc-if>
+
+            <!-- GRID -->
+            <sc-if value="{{ isGrid }}" hint-placeholder-val="{{ true }}">
+              <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(236px,1fr));gap:18px">
+                <sc-for list="{{ products }}" as="p" hint-placeholder-count="8">
+                  <div class="lift {{ p.cardClass }}" style="background:#fff;border:1px solid #ECEAE0;border-radius:18px 18px 18px 6px;overflow:hidden;box-shadow:0 1px 2px rgba(44,51,39,.04)" style-hover="{{ cardHover }}">
+                    <div style="position:relative;height:148px;background:repeating-linear-gradient(135deg,#F1EFE6,#F1EFE6 11px,#ECEAE0 11px,#ECEAE0 22px);display:flex;align-items:center;justify-content:center">
+                      <span style="font-family:ui-monospace,monospace;font-size:10.5px;color:#B7B3A4;letter-spacing:.05em">soap photo</span>
+                      <span style="{{ p.catPill }}">{{ p.catLabel }}</span>
+                      <span style="{{ p.statusBadge }}">{{ p.statusLabel }}</span>
+                    </div>
+                    <div style="padding:15px 16px 14px">
+                      <h3 style="margin:0;font-family:&#39;Noto Serif TC&#39;,serif;font-size:16.5px;font-weight:600;color:#2C3327">{{ p.name }}</h3>
+                      <div style="font-size:12px;color:#A09C8D;margin-top:5px;min-height:16px">{{ p.tagsText }}</div>
+                      <div style="display:flex;align-items:center;justify-content:space-between;margin-top:13px">
+                        <span style="font-family:&#39;Noto Serif TC&#39;,serif;font-size:16px;font-weight:700;color:#6A994E">{{ p.priceLabel }}</span>
+                        <div style="display:flex;gap:7px">
+                          <button onclick="{{ p.onEdit }}" style="width:32px;height:32px;border-radius:9px;border:1px solid #E2DECF;background:#fff;color:#5A6152;display:flex;align-items:center;justify-content:center;cursor:pointer" style-hover="{{ iconBtnHover }}">{{ editIcon }}</button>
+                          <button onclick="{{ p.onDel }}" style="width:32px;height:32px;border-radius:9px;border:1px solid #EAD9CF;background:#fff;color:#B07D62;display:flex;align-items:center;justify-content:center;cursor:pointer" style-hover="{{ delBtnHover }}">{{ trashIcon }}</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+            </sc-if>
+
+            <!-- LIST -->
+            <sc-if value="{{ isList }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;flex-direction:column;gap:11px">
+                <sc-for list="{{ products }}" as="p" hint-placeholder-count="8">
+                  <div class="lift {{ p.cardClass }}" style="display:flex;align-items:center;gap:18px;background:#fff;border:1px solid #ECEAE0;border-radius:16px;padding:13px 18px 13px 13px;box-shadow:0 1px 2px rgba(44,51,39,.04)" style-hover="{{ cardHover }}">
+                    <div style="position:relative;width:66px;height:66px;border-radius:13px;flex:0 0 auto;background:repeating-linear-gradient(135deg,#F1EFE6,#F1EFE6 8px,#ECEAE0 8px,#ECEAE0 16px)"></div>
+                    <div style="flex:1;min-width:0">
+                      <div style="display:flex;align-items:center;gap:10px">
+                        <h3 style="margin:0;font-family:&#39;Noto Serif TC&#39;,serif;font-size:16.5px;font-weight:600;color:#2C3327">{{ p.name }}</h3>
+                        <span style="{{ p.statusBadgeInline }}">{{ p.statusLabel }}</span>
+                      </div>
+                      <div style="font-size:12.5px;color:#A09C8D;margin-top:4px">{{ p.catLabel }}　·　{{ p.tagsText }}</div>
+                    </div>
+                    <span style="font-family:&#39;Noto Serif TC&#39;,serif;font-size:17px;font-weight:700;color:#6A994E;flex:0 0 auto">{{ p.priceLabel }}</span>
+                    <div style="display:flex;gap:8px;flex:0 0 auto">
+                      <button onclick="{{ p.onEdit }}" style="width:36px;height:36px;border-radius:10px;border:1px solid #E2DECF;background:#fff;color:#5A6152;display:flex;align-items:center;justify-content:center;cursor:pointer" style-hover="{{ iconBtnHover }}">{{ editIcon }}</button>
+                      <button onclick="{{ p.onDel }}" style="width:36px;height:36px;border-radius:10px;border:1px solid #EAD9CF;background:#fff;color:#B07D62;display:flex;align-items:center;justify-content:center;cursor:pointer" style-hover="{{ delBtnHover }}">{{ trashIcon }}</button>
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+            </sc-if>
+          </sc-if>
+
+          <!-- FILTER DRAWER -->
+          <sc-if value="{{ filterOpen }}" hint-placeholder-val="{{ false }}">
+            <div onclick="{{ toggleFilter }}" style="position:fixed;inset:0;background:rgba(44,51,39,.28);z-index:40"></div>
+            <div class="scroll" style="position:fixed;top:0;left:0;bottom:0;width:330px;background:#F8F7F2;border-right:1px solid #E2DECF;z-index:41;padding:26px;overflow-y:auto;box-shadow:14px 0 40px rgba(44,51,39,.12)">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:22px">
+                <div style="font-family:&#39;Noto Serif TC&#39;,serif;font-size:18px;font-weight:600;color:#2C3327;display:flex;align-items:center;gap:9px">{{ filterIconLg }}篩選產品</div>
+                <span onclick="{{ toggleFilter }}" style="cursor:pointer;color:#9A9C8E;font-size:20px">×</span>
+              </div>
+              <div style="font-size:12px;font-weight:600;color:#8A8D7F;letter-spacing:.06em;margin-bottom:9px">關鍵字</div>
+              <input value="{{ search }}" oninput="{{ onSearch }}" placeholder="搜尋產品名稱…" style="width:100%;border:1px solid #E2DECF;background:#fff;border-radius:11px;padding:11px 13px;font-size:13.5px;color:#2C3327;margin-bottom:22px">
+              <div style="font-size:12px;font-weight:600;color:#8A8D7F;letter-spacing:.06em;margin-bottom:9px">產品分類</div>
+              <div style="display:flex;flex-direction:column;gap:7px;margin-bottom:22px">
+                <sc-for list="{{ catOptions }}" as="o" hint-placeholder-count="4">
+                  <div onclick="{{ o.onClick }}" style="{{ o.style }}">{{ o.label }}<sc-if value="{{ o.active }}" hint-placeholder-val="{{ false }}"><span style="color:#6A994E">{{ checkIcon }}</span></sc-if></div>
+                </sc-for>
+              </div>
+              <div style="font-size:12px;font-weight:600;color:#8A8D7F;letter-spacing:.06em;margin-bottom:9px">發佈狀態</div>
+              <div style="display:flex;flex-direction:column;gap:7px;margin-bottom:26px">
+                <sc-for list="{{ statusOptions }}" as="o" hint-placeholder-count="3">
+                  <div onclick="{{ o.onClick }}" style="{{ o.style }}">{{ o.label }}<sc-if value="{{ o.active }}" hint-placeholder-val="{{ false }}"><span style="color:#6A994E">{{ checkIcon }}</span></sc-if></div>
+                </sc-for>
+              </div>
+              <div style="display:flex;gap:10px">
+                <button onclick="{{ clearFilters }}" style="flex:1;background:#fff;border:1px solid #E2DECF;border-radius:11px;padding:12px;font-size:13.5px;font-weight:600;color:#5A6152;cursor:pointer">清除</button>
+                <button onclick="{{ toggleFilter }}" style="flex:1;background:#6A994E;border:none;border-radius:11px;padding:12px;font-size:13.5px;font-weight:600;color:#fff;cursor:pointer">查看 {{ resultCount }} 件</button>
+              </div>
+            </div>
+          </sc-if>
+        </sc-if>
+
+        <!-- ===== PRODUCT EDIT ===== -->
+        <sc-if value="{{ isEdit }}" hint-placeholder-val="{{ false }}">
+          <div onclick="{{ goProducts }}" style="display:inline-flex;align-items:center;gap:7px;font-size:13px;color:#8A8D7F;cursor:pointer;margin-bottom:18px" style-hover="{{ backHover }}"><span style="font-size:15px">‹</span>產品管理</div>
+          <div style="display:grid;grid-template-columns:1fr 340px;gap:22px;align-items:start">
+            <!-- LEFT -->
+            <div style="display:flex;flex-direction:column;gap:18px">
+              <div style="background:#fff;border:1px solid #ECEAE0;border-radius:18px;padding:24px 26px;box-shadow:0 1px 2px rgba(44,51,39,.04)">
+                <input value="{{ form.name }}" oninput="{{ onFName }}" placeholder="為這款手工皂取個名字…" style="width:100%;border:none;border-bottom:2px solid #ECEAE0;padding:6px 2px 12px;font-family:&#39;Noto Serif TC&#39;,serif;font-size:26px;font-weight:600;color:#2C3327;background:transparent" style-focus="{{ titleFocus }}">
+                <div style="font-size:12px;font-weight:600;color:#8A8D7F;letter-spacing:.05em;margin:24px 0 9px">產品故事與描述</div>
+                <textarea value="{{ form.desc }}" oninput="{{ onFDesc }}" placeholder="述說這款皂的靈感、香氣與職人製作過程…" style="width:100%;min-height:130px;border:1px solid #ECEAE0;border-radius:13px;padding:14px;font-size:13.5px;line-height:1.8;color:#3A4233;background:#FCFBF7;resize:vertical" style-focus="{{ areaFocus }}"></textarea>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:20px">
+                  <div>
+                    <div style="font-size:12px;font-weight:600;color:#8A8D7F;letter-spacing:.05em;margin-bottom:8px">淨重</div>
+                    <input value="{{ form.weight }}" oninput="{{ onFWeight }}" placeholder="100g" style="width:100%;border:1px solid #ECEAE0;border-radius:11px;padding:11px 13px;font-size:13.5px;color:#2C3327;background:#FCFBF7" style-focus="{{ inputFocus }}">
+                  </div>
+                  <div>
+                    <div style="font-size:12px;font-weight:600;color:#8A8D7F;letter-spacing:.05em;margin-bottom:8px">適用膚質</div>
+                    <input value="{{ form.skin }}" oninput="{{ onFSkin }}" placeholder="中性 / 混合肌" style="width:100%;border:1px solid #ECEAE0;border-radius:11px;padding:11px 13px;font-size:13.5px;color:#2C3327;background:#FCFBF7" style-focus="{{ inputFocus }}">
+                  </div>
+                </div>
+                <div style="font-size:12px;font-weight:600;color:#8A8D7F;letter-spacing:.05em;margin:20px 0 8px">主要成分</div>
+                <input value="{{ form.ingredients }}" oninput="{{ onFIng }}" placeholder="橄欖油、椰子油、左手香萃取…" style="width:100%;border:1px solid #ECEAE0;border-radius:11px;padding:11px 13px;font-size:13.5px;color:#2C3327;background:#FCFBF7" style-focus="{{ inputFocus }}">
+              </div>
+
+              <!-- MEDIA GALLERY -->
+              <div style="background:#fff;border:1px solid #ECEAE0;border-radius:18px;padding:22px 26px 24px;box-shadow:0 1px 2px rgba(44,51,39,.04)">
+                <div style="font-family:&#39;Noto Serif TC&#39;,serif;font-size:16px;font-weight:600;color:#2C3327;margin-bottom:4px">產品相片</div>
+                <div style="font-size:12px;color:#A09C8D;margin-bottom:16px">第一張為封面，拖曳即可排序</div>
+                <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px">
+                  <sc-for list="{{ form.mediaVMs }}" as="m" hint-placeholder-count="0">
+                    <div style="position:relative;aspect-ratio:1;border-radius:13px;overflow:hidden;background:repeating-linear-gradient(135deg,#F1EFE6,#F1EFE6 8px,#ECEAE0 8px,#ECEAE0 16px);border:1px solid #ECEAE0">
+                      <sc-if value="{{ m.isCover }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;top:7px;left:7px;background:#6A994E;color:#fff;font-size:10px;font-weight:600;padding:2px 8px;border-radius:7px">封面</span></sc-if>
+                      <span onclick="{{ m.onRemove }}" style="position:absolute;top:7px;right:7px;width:22px;height:22px;border-radius:7px;background:rgba(44,51,39,.55);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;cursor:pointer">×</span>
+                    </div>
+                  </sc-for>
+                  <div onclick="{{ addMedia }}" ondragover="{{ onGalleryOver }}" ondragleave="{{ onGalleryLeave }}" ondrop="{{ onGalleryDrop }}" style="{{ uploadBoxStyle }}">
+                    <sc-if value="{{ galleryHover }}" hint-placeholder-val="{{ false }}"><div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:.4">{{ watermarkLeaf }}</div></sc-if>
+                    <span style="color:#B0AC9C">{{ uploadIcon }}</span>
+                    <span style="font-size:11.5px;color:#A09C8D;font-weight:500">點擊或拖曳</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- RIGHT -->
+            <div style="display:flex;flex-direction:column;gap:18px;position:sticky;top:0">
+              <div style="background:#fff;border:1px solid #ECEAE0;border-radius:18px;padding:20px;box-shadow:0 1px 2px rgba(44,51,39,.04)">
+                <div style="font-family:&#39;Noto Serif TC&#39;,serif;font-size:15px;font-weight:600;color:#2C3327;margin-bottom:14px">發佈狀態</div>
+                <div style="display:flex;background:#F1EFE6;border-radius:11px;padding:4px;margin-bottom:18px">
+                  <button onclick="{{ setDraft }}" style="{{ statusToggle.draft }}">草稿</button>
+                  <button onclick="{{ setPublished }}" style="{{ statusToggle.published }}">已發佈</button>
+                </div>
+                <div style="font-size:12px;font-weight:600;color:#8A8D7F;letter-spacing:.05em;margin-bottom:8px">產品分類</div>
+                <div style="position:relative;margin-bottom:18px">
+                  <select value="{{ form.catLabel }}" onchange="{{ onFCat }}" style="width:100%;border:1px solid #ECEAE0;border-radius:11px;padding:11px 13px;font-size:13.5px;color:#2C3327;background:#FCFBF7;appearance:none;cursor:pointer">
+                    <option>清爽系</option><option>潤澤系</option><option>舒緩系</option>
+                  </select>
+                  <span style="position:absolute;right:13px;top:13px;color:#9A9C8E;pointer-events:none">▾</span>
+                </div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+                  <div>
+                    <div style="font-size:12px;font-weight:600;color:#8A8D7F;letter-spacing:.05em;margin-bottom:8px">售價</div>
+                    <input value="{{ form.price }}" oninput="{{ onFPrice }}" style="width:100%;border:1px solid #ECEAE0;border-radius:11px;padding:11px 13px;font-size:13.5px;color:#2C3327;background:#FCFBF7" style-focus="{{ inputFocus }}">
+                  </div>
+                  <div>
+                    <div style="font-size:12px;font-weight:600;color:#8A8D7F;letter-spacing:.05em;margin-bottom:8px">貨號</div>
+                    <input value="{{ form.sku }}" oninput="{{ onFSku }}" placeholder="SOAP-000" style="width:100%;border:1px solid #ECEAE0;border-radius:11px;padding:11px 13px;font-size:13.5px;color:#2C3327;background:#FCFBF7" style-focus="{{ inputFocus }}">
+                  </div>
+                </div>
+              </div>
+
+              <div style="background:#fff;border:1px solid #ECEAE0;border-radius:18px;padding:20px;box-shadow:0 1px 2px rgba(44,51,39,.04)">
+                <div style="font-family:&#39;Noto Serif TC&#39;,serif;font-size:15px;font-weight:600;color:#2C3327;margin-bottom:14px">功效標籤</div>
+                <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:13px">
+                  <sc-for list="{{ form.tagVMs }}" as="t" hint-placeholder-count="2">
+                    <span style="display:inline-flex;align-items:center;gap:6px;background:#EAF1E4;color:#4C6E37;border-radius:999px;padding:6px 8px 6px 13px;font-size:12.5px;font-weight:500">{{ t.label }}<span onclick="{{ t.onRemove }}" style="cursor:pointer;color:#83A368;font-size:13px">×</span></span>
+                  </sc-for>
+                </div>
+                <input value="{{ tagDraft }}" oninput="{{ onTagDraft }}" onkeydown="{{ onTagKey }}" placeholder="輸入標籤後按 Enter…" style="width:100%;border:1px solid #ECEAE0;border-radius:11px;padding:10px 13px;font-size:13px;color:#2C3327;background:#FCFBF7" style-focus="{{ inputFocus }}">
+                <div style="display:flex;flex-wrap:wrap;gap:7px;margin-top:11px">
+                  <sc-for list="{{ tagSuggestions }}" as="s" hint-placeholder-count="4">
+                    <span onclick="{{ s.onClick }}" style="font-size:12px;color:#8A8D7F;border:1px dashed #D9D5C7;border-radius:999px;padding:4px 11px;cursor:pointer" style-hover="{{ suggHover }}">＋{{ s.label }}</span>
+                  </sc-for>
+                </div>
+              </div>
+
+              <div style="background:#fff;border:1px solid #ECEAE0;border-radius:18px;padding:20px;box-shadow:0 1px 2px rgba(44,51,39,.04)">
+                <div style="font-family:&#39;Noto Serif TC&#39;,serif;font-size:15px;font-weight:600;color:#2C3327;margin-bottom:14px">SEO 設定</div>
+                <input value="{{ form.seoTitle }}" oninput="{{ onFSeoT }}" placeholder="網頁標題" style="width:100%;border:1px solid #ECEAE0;border-radius:11px;padding:10px 13px;font-size:13px;color:#2C3327;background:#FCFBF7;margin-bottom:11px" style-focus="{{ inputFocus }}">
+                <textarea value="{{ form.seoDesc }}" oninput="{{ onFSeoD }}" placeholder="網頁描述（給搜尋引擎）" style="width:100%;min-height:64px;border:1px solid #ECEAE0;border-radius:11px;padding:10px 13px;font-size:13px;line-height:1.7;color:#3A4233;background:#FCFBF7;resize:vertical" style-focus="{{ areaFocus }}"></textarea>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- ===== TRASH ===== -->
+        <sc-if value="{{ isTrash }}" hint-placeholder-val="{{ false }}">
+          <div onclick="{{ goProducts }}" style="display:inline-flex;align-items:center;gap:7px;font-size:13px;color:#8A8D7F;cursor:pointer;margin-bottom:18px" style-hover="{{ backHover }}"><span style="font-size:15px">‹</span>產品管理</div>
+          <div style="display:flex;align-items:center;gap:10px;background:#F1E9E2;border:1px solid #E7D8CD;border-radius:13px;padding:14px 18px;margin-bottom:20px">
+            <span style="color:#B07D62">{{ trashIconLg }}</span>
+            <span style="font-size:13px;color:#9A6A52;line-height:1.6">回收桶內的產品保留 30 天後自動清除。可隨時復原，或立即永久銷毀。</span>
+          </div>
+          <sc-if value="{{ trashEmpty }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:70px 0;text-align:center">
+              <div style="animation:leafSway 4s ease-in-out infinite">{{ emptyLeaf }}</div>
+              <div style="font-family:&#39;Noto Serif TC&#39;,serif;font-size:18px;font-weight:600;color:#3A4233;margin-top:18px">回收桶是空的</div>
+              <div style="font-size:13px;color:#9A9C8E;margin-top:6px">乾淨得像剛脫模的手工皂。</div>
+            </div>
+          </sc-if>
+          <div style="display:flex;flex-direction:column;gap:11px">
+            <sc-for list="{{ trashItems }}" as="t" hint-placeholder-count="0">
+              <div class="{{ t.cardClass }}" style="display:flex;align-items:center;gap:18px;background:#FBFAF6;border:1px solid #E7E3D7;border-radius:16px;padding:13px 18px 13px 13px">
+                <div style="width:60px;height:60px;border-radius:13px;flex:0 0 auto;background:repeating-linear-gradient(135deg,#EDEAE0,#EDEAE0 8px,#E5E1D5 8px,#E5E1D5 16px);opacity:.7"></div>
+                <div style="flex:1;min-width:0">
+                  <h3 style="margin:0;font-family:&#39;Noto Serif TC&#39;,serif;font-size:16px;font-weight:600;color:#6F7363">{{ t.name }}</h3>
+                  <div style="font-size:12px;color:#A8A496;margin-top:4px">{{ t.catLabel }}　·　刪除於 {{ t.deletedAt }}</div>
+                </div>
+                <button onclick="{{ t.onRestore }}" style="display:flex;align-items:center;gap:7px;background:#EAF1E4;color:#4C6E37;border:1px solid #D3E0C6;border-radius:11px;padding:9px 15px;font-size:13px;font-weight:600;cursor:pointer">{{ restoreIcon }}復原</button>
+                <button onclick="{{ t.onDestroy }}" style="background:#fff;color:#B07D62;border:1px solid #E5D8CF;border-radius:11px;padding:9px 15px;font-size:13px;font-weight:600;cursor:pointer" style-hover="{{ destroyHover }}">永久銷毀</button>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <!-- ===== BRAND BASIC ===== -->
+        <sc-if value="{{ isBrandBasic }}" hint-placeholder-val="{{ false }}">
+          <div style="display:grid;grid-template-columns:1fr 340px;gap:22px;align-items:start">
+            <div style="background:#fff;border:1px solid #ECEAE0;border-radius:18px;padding:26px;box-shadow:0 1px 2px rgba(44,51,39,.04)">
+              <div style="font-family:&#39;Noto Serif TC&#39;,serif;font-size:16px;font-weight:600;color:#2C3327;margin-bottom:18px">聯絡資訊</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+                <div><div style="font-size:12px;font-weight:600;color:#8A8D7F;margin-bottom:8px">品牌名稱</div><input value="綠芬芳手工皂" style="width:100%;border:1px solid #ECEAE0;border-radius:11px;padding:11px 13px;font-size:13.5px;color:#2C3327;background:#FCFBF7"></div>
+                <div><div style="font-size:12px;font-weight:600;color:#8A8D7F;margin-bottom:8px">聯絡電話</div><input value="04-2376-8800" style="width:100%;border:1px solid #ECEAE0;border-radius:11px;padding:11px 13px;font-size:13.5px;color:#2C3327;background:#FCFBF7"></div>
+                <div><div style="font-size:12px;font-weight:600;color:#8A8D7F;margin-bottom:8px">電子郵件</div><input value="hello@lvfenfang.tw" style="width:100%;border:1px solid #ECEAE0;border-radius:11px;padding:11px 13px;font-size:13.5px;color:#2C3327;background:#FCFBF7"></div>
+                <div><div style="font-size:12px;font-weight:600;color:#8A8D7F;margin-bottom:8px">營業時間</div><input value="週二至週日 10:00–18:00" style="width:100%;border:1px solid #ECEAE0;border-radius:11px;padding:11px 13px;font-size:13.5px;color:#2C3327;background:#FCFBF7"></div>
+              </div>
+              <div style="font-size:12px;font-weight:600;color:#8A8D7F;margin:18px 0 8px">工坊地址</div>
+              <input value="台中市西區美村路一段 117 巷 8 號" style="width:100%;border:1px solid #ECEAE0;border-radius:11px;padding:11px 13px;font-size:13.5px;color:#2C3327;background:#FCFBF7">
+              <div style="font-family:&#39;Noto Serif TC&#39;,serif;font-size:16px;font-weight:600;color:#2C3327;margin:26px 0 16px">社群連結</div>
+              <div style="display:flex;flex-direction:column;gap:12px">
+                <div style="display:flex;align-items:center;gap:12px"><span style="width:80px;font-size:13px;color:#5A6152;flex:0 0 auto">Facebook</span><input value="fb.com/lvfenfang" style="flex:1;border:1px solid #ECEAE0;border-radius:11px;padding:10px 13px;font-size:13px;color:#2C3327;background:#FCFBF7"></div>
+                <div style="display:flex;align-items:center;gap:12px"><span style="width:80px;font-size:13px;color:#5A6152;flex:0 0 auto">Instagram</span><input value="@lvfenfang.soap" style="flex:1;border:1px solid #ECEAE0;border-radius:11px;padding:10px 13px;font-size:13px;color:#2C3327;background:#FCFBF7"></div>
+                <div style="display:flex;align-items:center;gap:12px"><span style="width:80px;font-size:13px;color:#5A6152;flex:0 0 auto">LINE</span><input value="@lvfenfang" style="flex:1;border:1px solid #ECEAE0;border-radius:11px;padding:10px 13px;font-size:13px;color:#2C3327;background:#FCFBF7"></div>
+              </div>
+            </div>
+            <div style="background:#fff;border:1px solid #ECEAE0;border-radius:18px;padding:22px;box-shadow:0 1px 2px rgba(44,51,39,.04)">
+              <div style="font-family:&#39;Noto Serif TC&#39;,serif;font-size:15px;font-weight:600;color:#2C3327;margin-bottom:14px">品牌 Logo</div>
+              <div style="aspect-ratio:1;border:2px dashed #D9D5C7;border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:#FCFBF7;cursor:pointer">
+                <div style="width:60px;height:60px;border-radius:50%;background:#EAF1E4;display:flex;align-items:center;justify-content:center">{{ emptyLeafSm }}</div>
+                <span style="font-size:12.5px;color:#A09C8D">點擊上傳 Logo</span>
+                <span style="font-family:ui-monospace,monospace;font-size:10px;color:#C2BEAF">PNG / SVG · 建議 512px</span>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- ===== CATEGORIES ===== -->
+        <sc-if value="{{ isCategories }}" hint-placeholder-val="{{ false }}">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:start">
+            <div style="background:#fff;border:1px solid #ECEAE0;border-radius:18px;padding:24px;box-shadow:0 1px 2px rgba(44,51,39,.04)">
+              <div style="font-family:&#39;Noto Serif TC&#39;,serif;font-size:16px;font-weight:600;color:#2C3327;margin-bottom:16px">產品分類</div>
+              <div style="display:flex;flex-direction:column;gap:10px">
+                <sc-for list="{{ categoryList }}" as="c" hint-placeholder-count="3">
+                  <div style="display:flex;align-items:center;gap:13px;padding:14px;border:1px solid #ECEAE0;border-radius:13px" style-hover="{{ hoverRowCard }}">
+                    <div style="width:10px;height:10px;border-radius:50%;background:#6A994E"></div>
+                    <span style="flex:1;font-size:14px;font-weight:600;color:#2C3327">{{ c.label }}</span>
+                    <span style="font-size:12px;color:#9A9C8E">{{ c.count }} 件</span>
+                    <span style="color:#B7B3A4;cursor:pointer">{{ editIcon }}</span>
+                  </div>
+                </sc-for>
+              </div>
+              <button style="margin-top:14px;width:100%;border:1px dashed #D3E0C6;background:#F4F8EF;color:#4C6E37;border-radius:12px;padding:12px;font-size:13px;font-weight:600;cursor:pointer">＋ 新增分類</button>
+            </div>
+            <div style="background:#fff;border:1px solid #ECEAE0;border-radius:18px;padding:24px;box-shadow:0 1px 2px rgba(44,51,39,.04)">
+              <div style="font-family:&#39;Noto Serif TC&#39;,serif;font-size:16px;font-weight:600;color:#2C3327;margin-bottom:6px">功效標籤</div>
+              <div style="font-size:12px;color:#A09C8D;margin-bottom:16px">用於標示成分與功效，可在前台篩選</div>
+              <div style="display:flex;flex-wrap:wrap;gap:9px">
+                <sc-for list="{{ tagCloud }}" as="t" hint-placeholder-count="8">
+                  <span style="display:inline-flex;align-items:center;gap:7px;background:#EAF1E4;color:#4C6E37;border-radius:999px;padding:8px 14px;font-size:13px;font-weight:500">{{ t.label }}<span style="font-size:11px;color:#83A368;background:#fff;border-radius:8px;padding:0 6px">{{ t.count }}</span></span>
+                </sc-for>
+                <span style="display:inline-flex;align-items:center;background:#FCFBF7;color:#8A8D7F;border:1px dashed #D9D5C7;border-radius:999px;padding:8px 14px;font-size:13px;cursor:pointer">＋ 新增標籤</span>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- ===== FAQ ===== -->
+        <sc-if value="{{ isFaq }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:14px;max-width:760px">
+            <sc-for list="{{ faqGroups }}" as="g" hint-placeholder-count="3">
+              <div style="background:#fff;border:1px solid #ECEAE0;border-radius:18px;padding:8px 8px 12px;box-shadow:0 1px 2px rgba(44,51,39,.04)">
+                <div style="display:flex;align-items:center;gap:11px;padding:14px 16px 10px">
+                  <div style="width:32px;height:32px;border-radius:10px;background:#EAF1E4;display:flex;align-items:center;justify-content:center;color:#6A994E">{{ g.iconEl }}</div>
+                  <span style="font-family:&#39;Noto Serif TC&#39;,serif;font-size:15.5px;font-weight:600;color:#2C3327">{{ g.label }}</span>
+                  <span style="font-size:11.5px;color:#A09C8D;background:#F1EFE6;border-radius:8px;padding:2px 9px">{{ g.count }} 題</span>
+                </div>
+                <sc-for list="{{ g.items }}" as="q" hint-placeholder-count="3">
+                  <div style="display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:11px;cursor:pointer" style-hover="{{ hoverRow }}">
+                    <div style="width:6px;height:6px;border-radius:50%;background:#CBD9BC"></div>
+                    <span style="flex:1;font-size:13.5px;color:#3A4233">{{ q.q }}</span>
+                    <span style="color:#C2BEAF">{{ chevIcon }}</span>
+                  </div>
+                </sc-for>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <!-- ===== CONTACT ===== -->
+        <sc-if value="{{ isContact }}" hint-placeholder-val="{{ false }}">
+          <div style="background:#fff;border:1px solid #ECEAE0;border-radius:18px;padding:8px;box-shadow:0 1px 2px rgba(44,51,39,.04)">
+            <sc-for list="{{ contactList }}" as="m" hint-placeholder-count="6">
+              <div style="display:flex;align-items:center;gap:16px;padding:15px 18px;border-radius:13px;cursor:pointer" style-hover="{{ hoverRow }}">
+                <div style="{{ m.dot }}"></div>
+                <div style="width:42px;height:42px;border-radius:12px;background:#F1EFE6;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:600;color:#6A994E;flex:0 0 auto">{{ m.initial }}</div>
+                <div style="flex:1;min-width:0">
+                  <div style="font-size:14px;font-weight:600;color:#2C3327">{{ m.subject }}</div>
+                  <div style="font-size:12.5px;color:#9A9C8E;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ m.name }}　·　{{ m.preview }}</div>
+                </div>
+                <span style="font-size:12px;color:#A8A496;flex:0 0 auto">{{ m.time }}</span>
+                <span style="{{ m.badgeStyle }}">{{ m.statusLabel }}</span>
+                <button style="background:#6A994E;color:#fff;border:none;border-radius:10px;padding:8px 15px;font-size:12.5px;font-weight:600;cursor:pointer;flex:0 0 auto">回覆</button>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <!-- ===== GENERIC (about / brand-home / banners) ===== -->
+        <sc-if value="{{ isGeneric }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 0;text-align:center">
+            <div style="animation:leafSway 4s ease-in-out infinite">{{ emptyLeaf }}</div>
+            <div style="font-family:&#39;Noto Serif TC&#39;,serif;font-size:19px;font-weight:600;color:#3A4233;margin-top:20px">{{ genericTitle }}</div>
+            <div style="font-size:13.5px;color:#9A9C8E;margin-top:8px;max-width:340px;line-height:1.8">{{ genericDesc }}</div>
+            <button style="margin-top:22px;background:#6A994E;color:#fff;border:none;border-radius:13px 13px 13px 5px;padding:11px 22px;font-size:13.5px;font-weight:600;cursor:pointer">開始設定</button>
+          </div>
+        </sc-if>
+
+      </div>
+    </main>
+
+    <!-- FLOATING SAVE BAR (edit only) -->
+    <sc-if value="{{ isEdit }}" hint-placeholder-val="{{ false }}">
+      <div style="flex:0 0 auto;display:flex;align-items:center;gap:14px;padding:16px 34px;background:rgba(248,247,242,.9);backdrop-filter:blur(10px);border-top:1px solid #E6E2D7">
+        <span style="font-size:12.5px;color:#9A9C8E">{{ saveHint }}</span>
+        <div style="flex:1"></div>
+        <button onclick="{{ goProducts }}" style="background:transparent;border:none;color:#8A8D7F;font-size:13.5px;font-weight:600;cursor:pointer;padding:11px 14px">取消</button>
+        <button onclick="{{ saveDraft }}" style="background:#fff;border:1px solid #E2DECF;color:#5A6152;border-radius:12px;padding:11px 20px;font-size:13.5px;font-weight:600;cursor:pointer">儲存草稿</button>
+        <button onclick="{{ publish }}" style="background:#6A994E;border:none;color:#fff;border-radius:14px 14px 14px 5px;padding:11px 26px;font-size:13.5px;font-weight:600;cursor:pointer;box-shadow:0 6px 16px rgba(106,153,78,.3)">發佈</button>
+      </div>
+    </sc-if>
+  </div>
+
+  <!-- TOAST -->
+  <sc-if value="{{ toast }}" hint-placeholder-val="0">
+    <div style="position:fixed;bottom:28px;left:50%;transform:translateX(-50%);z-index:60;display:flex;align-items:center;gap:11px;background:#2C3327;color:#F1EFE6;border-radius:13px;padding:13px 22px;font-size:13.5px;font-weight:500;box-shadow:0 12px 34px rgba(44,51,39,.34)">
+      <span style="color:#9FCB7E">{{ toastCheck }}</span>{{ toast }}
+    </div>
+  </sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script="">
+class Component extends DCLogic {
+  colors = { green:'#6A994E', greenD:'#557A3E', paper:'#F8F7F2', forest:'#2C3327', clay:'#B07D62' };
+
+  state = {
+    route:'dashboard', sidebarStyle:'forest', listLayout:'grid', dashLayout:'A',
+    search:'', filterCat:'all', filterStatus:'all', filterOpen:false,
+    removingId:null, restoringId:null, loading:false, toast:null,
+    tagDraft:'', galleryHover:false, editForm:null,
+    products:[
+      {id:'p1',name:'左手香手工皂',catLabel:'清爽系',tags:['左手香','抗菌'],price:280,status:'published',sku:'SOAP-001',weight:'100g',skin:'油性 / 痘痘肌',ingredients:'橄欖油、椰子油、左手香萃取、薄荷腦',desc:'採用工坊自種的左手香，低溫研磨萃取，清涼草本氣息能溫和淨化毛孔，是夏日最受歡迎的潔膚選擇。',seoTitle:'左手香手工皂 | 綠芬芳',seoDesc:'天然左手香萃取，清爽淨化，適合油性與痘痘肌。',images:[1,2]},
+      {id:'p2',name:'艾草平安皂',catLabel:'潤澤系',tags:['艾草','舒緩'],price:260,status:'published',sku:'SOAP-002',weight:'100g',skin:'乾性 / 敏感肌',ingredients:'乳油木果脂、艾草粉、甜杏仁油',desc:'端午採收的新鮮艾草入皂，溫潤不緊繃，淡淡草香沉穩安神。',seoTitle:'艾草平安皂 | 綠芬芳',seoDesc:'新鮮艾草入皂，溫潤舒緩。',images:[1]},
+      {id:'p3',name:'茶樹淨化皂',catLabel:'清爽系',tags:['茶樹','控油'],price:300,status:'published',sku:'SOAP-003',weight:'100g',skin:'油性肌',ingredients:'澳洲茶樹精油、椰子油、綠石泥',desc:'澳洲茶樹精油搭配綠石泥，深層調理、平衡油脂。',seoTitle:'茶樹淨化皂 | 綠芬芳',seoDesc:'茶樹精油深層淨化控油。',images:[1,2,3]},
+      {id:'p4',name:'燕麥牛奶皂',catLabel:'潤澤系',tags:['燕麥','保濕'],price:320,status:'draft',sku:'SOAP-004',weight:'110g',skin:'乾性 / 嬰幼兒',ingredients:'有機燕麥、鮮乳、酪梨油',desc:'磨碎燕麥提供溫和去角質，鮮乳滋養肌膚，連寶寶也適用。',seoTitle:'',seoDesc:'',images:[]},
+      {id:'p5',name:'玫瑰花瓣皂',catLabel:'潤澤系',tags:['玫瑰','嫩膚'],price:350,status:'published',sku:'SOAP-005',weight:'100g',skin:'熟齡 / 乾性',ingredients:'保加利亞玫瑰純露、玫瑰果油、乾燥花瓣',desc:'真實玫瑰花瓣入皂，浪漫香氣與滿滿花萃，回復肌膚光采。',seoTitle:'玫瑰花瓣皂 | 綠芬芳',seoDesc:'玫瑰純露嫩膚保養。',images:[1,2]},
+      {id:'p6',name:'薰衣草舒眠皂',catLabel:'舒緩系',tags:['薰衣草','助眠'],price:340,status:'published',sku:'SOAP-006',weight:'100g',skin:'中性 / 全膚質',ingredients:'法國薰衣草精油、荷荷芭油',desc:'睡前沐浴的療癒儀式，薰衣草沉靜香氣放鬆身心。',seoTitle:'薰衣草舒眠皂 | 綠芬芳',seoDesc:'薰衣草精油舒緩助眠。',images:[1]},
+      {id:'p7',name:'綠茶控油皂',catLabel:'清爽系',tags:['綠茶','控油'],price:280,status:'draft',sku:'SOAP-007',weight:'100g',skin:'油性肌',ingredients:'三峽碧螺春綠茶粉、椰子油',desc:'在地小農綠茶粉入皂，茶多酚抗氧化、清爽控油。',seoTitle:'',seoDesc:'',images:[]},
+      {id:'p8',name:'蜂蜜潤膚皂',catLabel:'潤澤系',tags:['蜂蜜','滋養'],price:310,status:'published',sku:'SOAP-008',weight:'100g',skin:'乾性肌',ingredients:'龍眼蜜、乳油木果脂、橄欖油',desc:'天然龍眼蜜鎖水保濕，洗後肌膚柔嫩不乾澀。',seoTitle:'蜂蜜潤膚皂 | 綠芬芳',seoDesc:'龍眼蜜滋養保濕。',images:[1,2]},
+    ],
+    trash:[
+      {id:'t1',name:'檜木森呼吸皂',catLabel:'舒緩系',tags:['檜木'],price:380,status:'published',sku:'SOAP-019',weight:'100g',skin:'全膚質',ingredients:'台灣檜木精油',desc:'',seoTitle:'',seoDesc:'',images:[],deletedAt:'2026/05/28'},
+      {id:'t2',name:'咖啡去角質皂',catLabel:'清爽系',tags:['咖啡','去角質'],price:290,status:'draft',sku:'SOAP-020',weight:'110g',skin:'全膚質',ingredients:'阿拉比卡咖啡渣',desc:'',seoTitle:'',seoDesc:'',images:[],deletedAt:'2026/06/02'},
+    ],
+  };
+
+  // ---------- icon factory ----------
+  icon(name, opts){
+    opts = opts||{}; const s = opts.size||20, c = opts.color||'currentColor', sw = opts.sw||1.7;
+    const E = React.createElement;
+    const svg = (...ch)=>E('svg',{key:name+s+c,width:s,height:s,viewBox:'0 0 24 24',fill:'none',stroke:c,strokeWidth:sw,strokeLinecap:'round',strokeLinejoin:'round'},...ch);
+    const p = (d,i)=>E('path',{key:'p'+(i||0),d});
+    switch(name){
+      case 'dashboard': return svg(E('rect',{key:1,x:3,y:3,width:7.5,height:7.5,rx:1.6}),E('rect',{key:2,x:13.5,y:3,width:7.5,height:7.5,rx:1.6}),E('rect',{key:3,x:3,y:13.5,width:7.5,height:7.5,rx:1.6}),E('rect',{key:4,x:13.5,y:13.5,width:7.5,height:7.5,rx:1.6}));
+      case 'brand': return svg(p('M12 3c3.2 4 5 6.6 5 9.6a5 5 0 0 1-10 0C7 9.6 8.8 7 12 3z'));
+      case 'product': return svg(E('rect',{key:1,x:3,y:7,width:18,height:11,rx:3}),p('M3 11.5h18',2));
+      case 'content': return svg(E('rect',{key:1,x:5,y:3.5,width:14,height:17,rx:2}),p('M8.5 8h7',2),p('M8.5 12h7',3),p('M8.5 16h4.5',4));
+      case 'service': return svg(p('M4.5 5h15v9.5H9.5L5 19V5z'));
+      case 'search': return svg(E('circle',{key:1,cx:11,cy:11,r:7}),p('M21 21l-3.6-3.6',2));
+      case 'filter': return svg(p('M3.5 5.5h17',1),p('M6.5 12h11',2),p('M10 18.5h4',3));
+      case 'plus': return svg(p('M12 5v14',1),p('M5 12h14',2));
+      case 'edit': return svg(p('M4 20.5h4L19.5 9 15.5 5 4 16.5v4z',1),p('M14 6.5l4 4',2));
+      case 'trash': return svg(p('M4 6.5h16',1),p('M9.5 6.5V4.5h5v2',2),p('M6 6.5l1 14h10l1-14',3),p('M10 10.5v6',4),p('M14 10.5v6',5));
+      case 'bell': return svg(p('M6.5 9.5a5.5 5.5 0 0 1 11 0c0 4.5 2 5.5 2 5.5H4.5s2-1 2-5.5z',1),p('M10 19a2 2 0 0 0 4 0',2));
+      case 'leaf': return svg(p('M5 19c0-7.5 5.5-12.5 14.5-13.5C20.5 14.5 15 19.5 7.5 19.5A6 6 0 0 1 5 19z',1),p('M5.5 19c4.5-4.5 8-6.5 12-7.5',2));
+      case 'restore': return svg(p('M4 12a8 8 0 1 0 2.6-5.9',1),p('M4 3.5V8h4.5',2));
+      case 'chev': return svg(p('M9.5 6l6 6-6 6'));
+      case 'image': return svg(E('rect',{key:1,x:3,y:5,width:18,height:14,rx:2.5}),E('circle',{key:2,cx:8.5,cy:10,r:1.6}),p('M21 16l-5-5L4.5 21',3));
+      case 'check': return svg(p('M5 12.5l4.5 4.5L20 6.5'));
+      case 'tag': return svg(p('M4 4.5h7l9 9-7 7-9-9V4.5z',1),E('circle',{key:2,cx:8,cy:8.5,r:1.3}));
+      case 'mail': return svg(E('rect',{key:1,x:3,y:5,width:18,height:14,rx:2.5}),p('M3.5 7l8.5 6 8.5-6',2));
+      case 'sparkle': return svg(p('M12 3.5l1.8 5.7 5.7 1.8-5.7 1.8L12 18.5l-1.8-5.7L4.5 11l5.7-1.8z'));
+      case 'cart': return svg(p('M4 5h2l2 11h9l2-7H7',1),E('circle',{key:2,cx:9,cy:20,r:1.3}),E('circle',{key:3,cx:17,cy:20,r:1.3}));
+      case 'home': return svg(p('M4 11.5L12 4l8 7.5',1),p('M6 10v10h12V10',2));
+      case 'reply': return svg(p('M9 7L4 12l5 5',1),p('M4 12h11a5 5 0 0 1 5 5v1',2));
+      case 'box': return svg(p('M12 3l8 4.5v9L12 21l-8-4.5v-9z',1),p('M4 7.5l8 4.5 8-4.5',2),p('M12 12v9',3));
+      default: return svg(E('circle',{cx:12,cy:12,r:8}));
+    }
+  }
+
+  today(){ return '2026/06/13'; }
+  notify(m){ this.setState({toast:m}); clearTimeout(this._t); this._t=setTimeout(()=>this.setState({toast:null}),2600); }
+
+  go(r){
+    if(r==='products'){ this.setState({route:r,filterOpen:false,loading:true}); clearTimeout(this._l); this._l=setTimeout(()=>this.setState({loading:false}),650); }
+    else this.setState({route:r,filterOpen:false});
+  }
+  newProduct(){ this.setState({route:'product-edit',editForm:{isNew:true,name:'',catLabel:'清爽系',tags:[],price:'280',status:'draft',sku:'',weight:'100g',skin:'',ingredients:'',desc:'',seoTitle:'',seoDesc:'',images:[]}}); }
+  edit(id){ const p=this.state.products.find(x=>x.id===id); this.setState({route:'product-edit',editForm:JSON.parse(JSON.stringify({...p,isNew:false})),tagDraft:''}); }
+
+  del(id){
+    this.setState({removingId:id});
+    setTimeout(()=>{ this.setState(s=>{ const p=s.products.find(x=>x.id===id); if(!p) return {removingId:null}; return {products:s.products.filter(x=>x.id!==id),trash:[{...p,deletedAt:this.today()},...s.trash],removingId:null}; }); this.notify('已移至回收桶'); },500);
+  }
+  restore(id){
+    this.setState(s=>{ const p=s.trash.find(x=>x.id===id); if(!p) return {}; const c={...p}; delete c.deletedAt; return {trash:s.trash.filter(x=>x.id!==id),products:[c,...s.products]}; });
+    this.notify('已復原至產品工坊');
+  }
+  destroy(id){ this.setState(s=>({trash:s.trash.filter(x=>x.id!==id)})); this.notify('已永久銷毀'); }
+
+  saveForm(status){
+    const f=this.state.editForm; if(!f) return;
+    this.setState(s=>{ let products=s.products.slice(); const data={...f,status,price:parseInt(f.price,10)||0}; delete data.isNew; delete data.mediaVMs; delete data.tagVMs;
+      if(f.isNew){ data.id='p'+Date.now(); products=[data,...products]; } else { products=products.map(p=>p.id===f.id?{...p,...data}:p); }
+      return {products,route:'products',editForm:null}; });
+    this.notify(status==='published'?'產品已發佈上架':'草稿已儲存');
+  }
+  setF(k,v){ this.setState(s=>({editForm:{...s.editForm,[k]:v}})); }
+  addMedia(){ this.setState(s=>({editForm:{...s.editForm,images:[...s.editForm.images,Date.now()]},galleryHover:false})); }
+  removeMedia(i){ this.setState(s=>({editForm:{...s.editForm,images:s.editForm.images.filter((_,idx)=>idx!==i)}})); }
+  addTag(t){ t=(t||'').trim(); if(!t) return; this.setState(s=>{ if(s.editForm.tags.includes(t)) return {tagDraft:''}; return {editForm:{...s.editForm,tags:[...s.editForm.tags,t]},tagDraft:''}; }); }
+  removeTag(t){ this.setState(s=>({editForm:{...s.editForm,tags:s.editForm.tags.filter(x=>x!==t)}})); }
+
+  seg(active){ return active ? {background:'#fff',color:'#3A4233',boxShadow:'0 1px 2px rgba(44,51,39,.1)'} : {background:'transparent',color:'#9A9C8E'}; }
+  segBase(){ return {border:'none',borderRadius:'8px',padding:'6px 13px',fontSize:'12.5px',fontWeight:600,cursor:'pointer'}; }
+  iconSeg(active){ return {...this.segBase(),padding:'7px 12px',display:'flex',alignItems:'center',...(active?{background:'#fff',color:'#6A994E',boxShadow:'0 1px 2px rgba(44,51,39,.1)'}:{background:'transparent',color:'#A09C8E'})}; }
+
+  buildNav(){
+    const forest = this.state.sidebarStyle==='forest';
+    const route = this.state.route;
+    const baseItem = {display:'flex',alignItems:'center',gap:'11px',padding:'9px 12px',borderRadius:'11px',fontSize:'13.5px',fontWeight:500,cursor:'pointer',marginBottom:'2px',letterSpacing:'.01em'};
+    const aColor = forest ? '#fff' : '#4C6E37';
+    const iColor = forest ? '#AEB4A2' : '#5A6152';
+    const itemStyle = (active)=> active
+      ? {...baseItem, ...(forest?{background:'#6A994E',color:'#fff',boxShadow:'0 4px 13px rgba(106,153,78,.4)'}:{background:'#EAF1E4',color:'#4C6E37'})}
+      : {...baseItem, background:'transparent', boxShadow:'none', color:iColor};
+    const hover = forest ? {background:'rgba(255,255,255,.07)'} : {background:'#F1EFE6'};
+    const mk = (key,label,icn)=>{ const active=route===key||(key==='products'&&(route==='product-edit'||route==='trash'));
+      const it={key,label,style:itemStyle(active),hover,iconEl:this.icon(icn,{size:18,color:active?aColor:iColor,sw:1.7}),onClick:()=>this.go(key)};
+      if(key==='contact'){ const u=this.state.products?0:0; const unread=2; it.badge=unread; it.badgeStyle={background:forest?'#B07D62':'#F1E0D6',color:forest?'#fff':'#B07D62',fontSize:'10px',fontWeight:700,borderRadius:'8px',padding:'1px 7px'}; }
+      return it; };
+    const hd = forest ? {color:'#717968',fontSize:'10.5px',fontWeight:600,letterSpacing:'.13em',padding:'0 12px 7px',display:'flex',alignItems:'center',gap:'8px'} : {color:'#A8A696',fontSize:'10.5px',fontWeight:600,letterSpacing:'.13em',padding:'0 12px 7px',display:'flex',alignItems:'center',gap:'8px'};
+    const ghIcon=(n)=>this.icon(n,{size:13,color:forest?'#717968':'#A8A696',sw:1.8});
+    return {
+      asideStyle:{width:'250px',flex:'0 0 250px',display:'flex',flexDirection:'column',background:forest?'#2C3327':'#FBFAF6',borderRight:forest?'none':'1px solid #E6E2D7',color:forest?'#C9CDBF':'#3A4233'},
+      brandBox:{display:'flex',alignItems:'center',gap:'12px',padding:'22px 20px 18px'},
+      logoBox:{width:'42px',height:'42px',borderRadius:'13px 13px 13px 5px',background:forest?'rgba(106,153,78,.22)':'#EAF1E4',display:'flex',alignItems:'center',justifyContent:'center',flex:'0 0 auto'},
+      logoIcon:this.icon('leaf',{size:22,color:'#6A994E',sw:1.7}),
+      brandTitle:{fontFamily:"'Noto Serif TC',serif",fontSize:'17px',fontWeight:700,color:forest?'#fff':'#2C3327'},
+      brandSub:{fontSize:'11px',color:forest?'#8A917E':'#9A9C8E',marginTop:'1px',letterSpacing:'.02em'},
+      dashItem:mk('dashboard','儀表板','dashboard'),
+      groups:[
+        {label:'品牌核心',headerStyle:hd,iconEl:ghIcon('brand'),items:[mk('brand-basic','基本資料','brand'),mk('brand-home','首頁設定','home')]},
+        {label:'產品工坊',headerStyle:hd,iconEl:ghIcon('product'),items:[mk('products','產品管理','product'),mk('categories','分類 / 標籤','tag')]},
+        {label:'內容敘事',headerStyle:hd,iconEl:ghIcon('content'),items:[mk('about','關於我們','content'),mk('banners','頁面橫幅','image')]},
+        {label:'客戶服務',headerStyle:hd,iconEl:ghIcon('service'),items:[mk('faq','常見問題','service'),mk('contact','聯絡表單','mail')]},
+      ],
+      footStyle:{display:'flex',alignItems:'center',gap:'11px',padding:'14px 18px',borderTop:forest?'1px solid rgba(255,255,255,.08)':'1px solid #E6E2D7'},
+      avatarStyle:{width:'38px',height:'38px',borderRadius:'11px',background:'#6A994E',color:'#fff',display:'flex',alignItems:'center',justifyContent:'center',fontFamily:"'Noto Serif TC',serif",fontWeight:600,fontSize:'15px',flex:'0 0 auto'},
+      footName:{fontSize:'13px',fontWeight:600,color:forest?'#E8EADF':'#2C3327'},
+      footRole:{fontSize:'11px',color:forest?'#8A917E':'#9A9C8E'},
+    };
+  }
+
+  badge(status){
+    const pub = status==='published';
+    return {position:'absolute',top:'10px',right:'10px',background:pub?'rgba(106,153,78,.92)':'rgba(176,125,98,.92)',color:'#fff',fontSize:'11px',fontWeight:600,padding:'3px 10px',borderRadius:'8px',backdropFilter:'blur(4px)'};
+  }
+  badgeInline(status){ const pub=status==='published'; return {background:pub?'#EAF1E4':'#F2EBDD',color:pub?'#557A3E':'#9A7B45',fontSize:'11px',fontWeight:600,padding:'2px 9px',borderRadius:'7px'}; }
+  msgBadge(st){ const isNew=st==='new'; return {background:isNew?'#EAF1E4':'#F1EFE6',color:isNew?'#557A3E':'#A09C8E',fontSize:'11px',fontWeight:600,padding:'3px 9px',borderRadius:'7px',flex:'0 0 auto'}; }
+  msgDot(st){ return {width:'8px',height:'8px',borderRadius:'50%',flex:'0 0 auto',background:st==='new'?'#6A994E':'transparent',border:st==='new'?'none':'1.5px solid #D2CFC0'}; }
+
+  filtered(){
+    const {products,search,filterCat,filterStatus}=this.state;
+    return products.filter(p=> (!search||p.name.includes(search)) && (filterCat==='all'||p.catLabel===filterCat) && (filterStatus==='all'||p.status===filterStatus));
+  }
+
+  renderVals(){
+    const st=this.state, route=st.route, nav=this.buildNav();
+    const titles={dashboard:['儀表板','品牌營運概況與最新動態'],products:['產品管理','所有單品手工皂的管理'],'product-edit':[st.editForm&&st.editForm.isNew?'新增產品':'編輯產品','沈浸式編輯與即時預覽'],trash:['資源回收桶','已刪除的產品可復原或永久銷毀'],'brand-basic':['基本資料','品牌 Logo、聯絡資訊與社群連結'],'brand-home':['首頁設定','主視覺與當季主打輪播管理'],categories:['分類 / 標籤','產品分類與功效標籤管理'],about:['關於我們','品牌理念與職人故事'],banners:['頁面橫幅','各子頁面頂部視覺設定'],faq:['常見問題','樹狀分類管理消費者疑慮'],contact:['聯絡表單','客戶諮詢訊息與回覆狀態']};
+    const t=titles[route]||['',''];
+
+    const messages=[
+      {subject:'左手香皂可以批發嗎？',name:'林佳穎',initial:'林',time:'10 分鐘前',status:'new'},
+      {subject:'艾草平安皂的保存期限多久',name:'陳建宏',initial:'陳',time:'1 小時前',status:'new'},
+      {subject:'想預約週末工坊參觀體驗',name:'Wendy',initial:'W',time:'3 小時前',status:'replied'},
+      {subject:'敏感肌適合哪一款皂呢？',name:'張美玲',initial:'張',time:'昨天 16:20',status:'replied'},
+    ].map(m=>({...m,badgeStyle:this.msgBadge(m.status),dot:this.msgDot(m.status),statusLabel:m.status==='new'?'未回覆':'已回覆'}));
+
+    const stats=[
+      {label:'上架產品',value:String(st.products.filter(p=>p.status==='published').length),delta:'+3 本季',icon:'product',tone:'green'},
+      {label:'本月諮詢',value:'42',delta:'+12%',icon:'mail',tone:'clay'},
+      {label:'待回覆訊息',value:'2',delta:'需處理',icon:'bell',tone:'amber'},
+      {label:'草稿產品',value:String(st.products.filter(p=>p.status==='draft').length),delta:'待發佈',icon:'edit',tone:'ink'},
+    ].map(s=>{ const tones={green:['#EAF1E4','#557A3E'],clay:['#F2E7E0','#B07D62'],amber:['#F4EEDD','#A98B5D'],ink:['#ECECE6','#5A6152']}; const [bg,fg]=tones[s.tone];
+      return {...s,iconWrap:{width:'38px',height:'38px',borderRadius:'11px',background:bg,display:'flex',alignItems:'center',justifyContent:'center',color:fg},iconEl:this.icon(s.icon,{size:19,color:fg,sw:1.8}),deltaStyle:{fontSize:'11.5px',fontWeight:600,color:fg,background:bg,padding:'2px 9px',borderRadius:'7px'}}; });
+
+    const quickDefs=[['新增產品','plus',()=>this.newProduct()],['編輯首頁','home',()=>this.go('brand-home')],['回覆訊息','reply',()=>this.go('contact')],['管理分類','tag',()=>this.go('categories')]];
+    const quickLinks=quickDefs.map(([label,icn,fn])=>({label,onClick:fn,iconEl:this.icon(icn,{size:18,color:'#6A994E',sw:1.8})}));
+
+    const barH=[40,55,48,68,60,75,82,70,88,78,92,85];
+    const bars=barH.map(h=>({style:{flex:1,height:h+'%',borderRadius:'4px 4px 0 0',background:'linear-gradient(180deg,#6A994E,#557A3E)',opacity:.85}}));
+
+    // products
+    const list=this.filtered().map(p=>({...p,priceLabel:'NT$ '+p.price,statusLabel:p.status==='published'?'已發佈':'草稿',tagsText:p.tags.join('・'),catPill:{position:'absolute',top:'10px',left:'10px',background:'rgba(255,255,255,.92)',color:'#5A6152',fontSize:'11px',fontWeight:600,padding:'3px 10px',borderRadius:'8px',backdropFilter:'blur(4px)'},statusBadge:this.badge(p.status),statusBadgeInline:this.badgeInline(p.status),cardClass:st.removingId===p.id?'soap-out':'',onEdit:()=>this.edit(p.id),onDel:()=>this.del(p.id)}));
+
+    const chips=[];
+    if(st.search) chips.push({label:'「'+st.search+'」',onClear:()=>this.setState({search:''})});
+    if(st.filterCat!=='all') chips.push({label:st.filterCat,onClear:()=>this.setState({filterCat:'all'})});
+    if(st.filterStatus!=='all') chips.push({label:st.filterStatus==='published'?'已發佈':'草稿',onClear:()=>this.setState({filterStatus:'all'})});
+
+    const optStyle=(active)=>({display:'flex',alignItems:'center',justifyContent:'space-between',padding:'11px 14px',borderRadius:'11px',fontSize:'13.5px',fontWeight:active?600:500,cursor:'pointer',border:'1px solid '+(active?'#CBD9BC':'#ECEAE0'),background:active?'#F4F8EF':'#fff',color:active?'#4C6E37':'#5A6152'});
+    const catOptions=[['all','全部分類'],['清爽系','清爽系'],['潤澤系','潤澤系'],['舒緩系','舒緩系']].map(([v,l])=>({label:l,active:st.filterCat===v,style:optStyle(st.filterCat===v),onClick:()=>this.setState({filterCat:v})}));
+    const statusOptions=[['all','全部狀態'],['published','已發佈'],['draft','草稿']].map(([v,l])=>({label:l,active:st.filterStatus===v,style:optStyle(st.filterStatus===v),onClick:()=>this.setState({filterStatus:v})}));
+
+    // trash
+    const trashItems=st.trash.map(p=>({...p,onRestore:()=>this.restore(p.id),onDestroy:()=>this.destroy(p.id),cardClass:''}));
+
+    // edit form
+    let form=st.editForm;
+    if(form){ form={...form,
+      mediaVMs:form.images.map((id,i)=>({key:id,isCover:i===0,onRemove:()=>this.removeMedia(i)})),
+      tagVMs:form.tags.map(tg=>({label:tg,onRemove:()=>this.removeTag(tg)})),
+    }; }
+    const usedTags=(st.editForm&&st.editForm.tags)||[];
+    const tagSuggestions=['保濕','抗菌','控油','舒緩','嫩膚','天然'].filter(x=>!usedTags.includes(x)).slice(0,4).map(x=>({label:x,onClick:()=>this.addTag(x)}));
+    const statusToggleBase={flex:1,border:'none',borderRadius:'8px',padding:'8px',fontSize:'13px',fontWeight:600,cursor:'pointer'};
+    const isDraft=!form||form.status==='draft';
+
+    // categories / faq
+    const counts={}; st.products.forEach(p=>{counts[p.catLabel]=(counts[p.catLabel]||0)+1;});
+    const categoryList=[['清爽系'],['潤澤系'],['舒緩系']].map(([l])=>({label:l,count:counts[l]||0}));
+    const tagCounts={}; st.products.forEach(p=>p.tags.forEach(tg=>{tagCounts[tg]=(tagCounts[tg]||0)+1;}));
+    const tagCloud=Object.keys(tagCounts).map(k=>({label:k,count:tagCounts[k]}));
+    const faqGroups=[
+      {label:'購買與配送',icon:'cart',items:[{q:'運費怎麼計算？滿額免運嗎？'},{q:'手工皂大約幾天可以收到？'},{q:'可以開立統一發票嗎？'}]},
+      {label:'產品與成分',icon:'product',items:[{q:'手工皂的保存期限多久？'},{q:'敏感肌可以使用嗎？'},{q:'產品有通過檢驗嗎？'},{q:'皂體上的白霜是什麼？'}]},
+      {label:'工坊體驗',icon:'home',items:[{q:'如何預約手作課程？'},{q:'可以客製企業送禮嗎？'}]},
+    ].map(g=>({...g,count:g.items.length,iconEl:this.icon(g.icon,{size:17,color:'#6A994E',sw:1.8})}));
+
+    const contactList=[
+      {subject:'左手香皂可以批發嗎？',name:'林佳穎',initial:'林',preview:'你好，我經營一間小店，想詢問批發…',time:'10 分鐘前',status:'new'},
+      {subject:'艾草平安皂的保存期限多久',name:'陳建宏',initial:'陳',preview:'請問開封後需要冷藏嗎？',time:'1 小時前',status:'new'},
+      {subject:'想預約週末工坊參觀體驗',name:'Wendy',initial:'W',preview:'六月底有空檔嗎？四位大人…',time:'3 小時前',status:'replied'},
+      {subject:'敏感肌適合哪一款皂呢？',name:'張美玲',initial:'張',preview:'我的皮膚比較容易過敏…',time:'昨天 16:20',status:'replied'},
+      {subject:'產品禮盒可以客製包裝嗎',name:'國泰行銷部',initial:'國',preview:'中秋想訂購 200 組企業禮盒…',time:'2 天前',status:'replied'},
+      {subject:'玫瑰皂大概什麼時候補貨',name:'Amy',initial:'A',preview:'上次買完一直缺貨…',time:'3 天前',status:'replied'},
+    ].map(m=>({...m,badgeStyle:this.msgBadge(m.status),dot:this.msgDot(m.status),statusLabel:m.status==='new'?'未回覆':'已回覆'}));
+
+    const generic={'brand-home':['首頁主視覺尚未設定','設定首頁 Hero 區塊與當季主打 Banner 輪播，讓訪客一眼愛上你的手工皂。'],'about':['品牌故事等你來寫','介紹品牌理念、職人故事與工坊環境，建立與顧客的情感連結。'],'banners':['頁面橫幅一片留白','為產品頁、FAQ 等子頁面設定專屬的頂部視覺橫幅。']}[route]||['',''];
+
+    return {
+      route, contentBg: route==='trash'?'#F2F0E8':'#F8F7F2',
+      pageTitle:t[0], pageDesc:t[1], nav,
+      unread:'2', bellIcon:this.icon('bell',{size:19,sw:1.7}),
+      goContact:()=>this.go('contact'), goProducts:()=>this.go('products'), goTrash:()=>this.go('trash'),
+      // sidebar style seg
+      seg:{forest:{...this.segBase(),...this.seg(st.sidebarStyle==='forest')},paper:{...this.segBase(),...this.seg(st.sidebarStyle==='paper')}},
+      setForest:()=>this.setState({sidebarStyle:'forest'}), setPaper:()=>this.setState({sidebarStyle:'paper'}),
+      // route flags
+      isDashboard:route==='dashboard', isProducts:route==='products', isEdit:route==='product-edit', isTrash:route==='trash',
+      isBrandBasic:route==='brand-basic', isCategories:route==='categories', isFaq:route==='faq', isContact:route==='contact',
+      isGeneric:route==='brand-home'||route==='about'||route==='banners',
+      genericTitle:generic[0], genericDesc:generic[1],
+      // dashboard
+      dashIsA:st.dashLayout==='A', dashIsB:st.dashLayout==='B',
+      dashSeg:{a:{...this.segBase(),...this.seg(st.dashLayout==='A')},b:{...this.segBase(),...this.seg(st.dashLayout==='B')}},
+      setDashA:()=>this.setState({dashLayout:'A'}), setDashB:()=>this.setState({dashLayout:'B'}),
+      stats, messages, messagesShort:messages.slice(0,3), quickLinks, bars,
+      greetLeaf:this.icon('leaf',{size:24,color:'#6A994E',sw:1.7}),
+      bigLeaf:this.icon('leaf',{size:120,color:'#fff',sw:1.2}), hugeLeaf:this.icon('leaf',{size:180,color:'#fff',sw:1}),
+      hoverRow:{background:'#F4F2EA'}, hoverRowCard:{borderColor:'#CBD9BC',background:'#FCFEFA'}, quickHover:{borderColor:'#CBD9BC',background:'#F4F8EF',transform:'translateY(-2px)'},
+      // products
+      loading:st.loading, showProducts:!st.loading, productsEmpty:list.length===0,
+      isGrid:st.listLayout==='grid', isList:st.listLayout==='list', products:list,
+      resultCount:String(list.length), trashCount:String(st.trash.length),
+      filterChips:chips, filterOpen:st.filterOpen, toggleFilter:()=>this.setState({filterOpen:!st.filterOpen}),
+      setGrid:()=>this.setState({listLayout:'grid'}), setList:()=>this.setState({listLayout:'list'}),
+      layoutSeg:{grid:this.iconSeg(st.listLayout==='grid'),list:this.iconSeg(st.listLayout==='list')},
+      gridIcon:this.icon('dashboard',{size:17,sw:1.8}), listIcon:this.icon('content',{size:17,sw:1.8}),
+      newProduct:()=>this.newProduct(),
+      search:st.search, onSearch:(e)=>this.setState({search:e.target.value}),
+      catOptions, statusOptions, clearFilters:()=>this.setState({search:'',filterCat:'all',filterStatus:'all'}),
+      filterIcon:this.icon('filter',{size:16,sw:1.9,color:'#4C6E37'}), filterIconLg:this.icon('filter',{size:19,sw:1.8,color:'#6A994E'}),
+      plusIcon:this.icon('plus',{size:16,sw:2,color:'#fff'}), trashIcon:this.icon('trash',{size:16,sw:1.7}),
+      trashIconLg:this.icon('trash',{size:20,sw:1.7,color:'#B07D62'}), editIcon:this.icon('edit',{size:15,sw:1.8}),
+      checkIcon:this.icon('check',{size:16,sw:2,color:'#6A994E'}), restoreIcon:this.icon('restore',{size:15,sw:1.8,color:'#4C6E37'}),
+      chevIcon:this.icon('chev',{size:15,sw:1.8,color:'#C2BEAF'}),
+      cardHover:{transform:'translateY(-4px)',boxShadow:'0 12px 28px rgba(106,153,78,.16)',borderColor:'#D8E4CC'},
+      iconBtnHover:{borderColor:'#CBD9BC',color:'#4C6E37',background:'#F4F8EF'}, delBtnHover:{borderColor:'#E0C3B5',background:'#FAF1EC'},
+      destroyHover:{background:'#FAF1EC',borderColor:'#E0C3B5'}, backHover:{color:'#4C6E37'},
+      // trash
+      trashItems, trashEmpty:st.trash.length===0,
+      emptyLeaf:this.icon('leaf',{size:72,color:'#CBD9BC',sw:1.3}), emptyLeafSm:this.icon('leaf',{size:30,color:'#6A994E',sw:1.6}),
+      // edit
+      form, tagDraft:st.tagDraft, tagSuggestions, galleryHover:st.galleryHover,
+      onFName:(e)=>this.setF('name',e.target.value), onFDesc:(e)=>this.setF('desc',e.target.value),
+      onFWeight:(e)=>this.setF('weight',e.target.value), onFSkin:(e)=>this.setF('skin',e.target.value),
+      onFIng:(e)=>this.setF('ingredients',e.target.value), onFCat:(e)=>this.setF('catLabel',e.target.value),
+      onFPrice:(e)=>this.setF('price',e.target.value), onFSku:(e)=>this.setF('sku',e.target.value),
+      onFSeoT:(e)=>this.setF('seoTitle',e.target.value), onFSeoD:(e)=>this.setF('seoDesc',e.target.value),
+      onTagDraft:(e)=>this.setState({tagDraft:e.target.value}), onTagKey:(e)=>{ if(e.key==='Enter'){e.preventDefault();this.addTag(this.state.tagDraft);} },
+      addMedia:()=>this.addMedia(),
+      onGalleryOver:(e)=>{e.preventDefault();if(!st.galleryHover)this.setState({galleryHover:true});}, onGalleryLeave:()=>this.setState({galleryHover:false}), onGalleryDrop:(e)=>{e.preventDefault();this.addMedia();},
+      uploadBoxStyle:{position:'relative',aspectRatio:'1',border:'2px dashed '+(st.galleryHover?'#6A994E':'#D9D5C7'),borderRadius:'13px',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:'7px',background:st.galleryHover?'#F4F8EF':'#FCFBF7',cursor:'pointer',transition:'all .15s'},
+      uploadIcon:this.icon('image',{size:22,sw:1.6}), watermarkLeaf:this.icon('leaf',{size:48,color:'#6A994E',sw:1.4}),
+      setDraft:()=>this.setF('status','draft'), setPublished:()=>this.setF('status','published'),
+      statusToggle:{draft:{...statusToggleBase,background:isDraft?'#fff':'transparent',color:isDraft?'#9A7B45':'#A09C8E',boxShadow:isDraft?'0 1px 2px rgba(44,51,39,.1)':'none'},published:{...statusToggleBase,background:!isDraft?'#6A994E':'transparent',color:!isDraft?'#fff':'#A09C8E'}},
+      titleFocus:{borderBottomColor:'#6A994E'}, inputFocus:{borderColor:'#6A994E',background:'#fff'}, areaFocus:{borderColor:'#6A994E',background:'#fff'}, suggHover:{borderColor:'#6A994E',color:'#4C6E37'},
+      saveDraft:()=>this.saveForm('draft'), publish:()=>this.saveForm('published'),
+      saveHint: form&&form.name?('正在編輯「'+form.name+'」'):'尚未命名的新產品',
+      // categories / faq / contact
+      categoryList, tagCloud, faqGroups, contactList,
+      // toast
+      toast:st.toast, toastCheck:this.icon('check',{size:16,sw:2.2,color:'#9FCB7E'}),
+    };
+  }
+}
+</script>
+</body>
+</html>
